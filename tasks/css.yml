@@ -6,32 +6,39 @@
  #
 - name: CSS | Install rubygems package
   action: apt pkg=rubygems state=installed
-  when: "ansible_distribution_version in ['12.04', '13.04', '13.10']"
+  when: (ansible_distribution_version in ['12.04', '13.04', '13.10'])
   tags: css
+  become: yes
 
 - name: CSS | Install ruby package (gem is included now in ruby)
   action: apt pkg=ruby{{ ruby_version }} state=installed
-  when: "ansible_distribution_version not in ['12.04', '13.04', '13.10']"
+  when: (ansible_distribution_version not in ['12.04', '13.04', '13.10'])
   tags: css
+  become: yes
 
 - name: CSS | Install SASS
   action: command gem install sass creates=/usr/local/bin/sass
   tags: css
+  become: yes
 
 - name: CSS | Install Susy (no more --pre required as it's 1.0 now)
   action: command gem install susy
   tags: css
+  become: yes
 
 - name: CSS | Install Compass
   action: command gem install compass creates=/usr/local/bin/compass
   tags: css
+  become: yes
 
 - name: CSS | Install Respond-to
   action: command gem install respond-to
   tags: css
+  become: yes
 
 - name: Install cssed
   apt: pkg={{ item }} state=present update_cache=yes
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version in ['12.04', '13.04', '13.10'] and css_editor_enabled
   with_items:
    - cssed
+  become: yes
