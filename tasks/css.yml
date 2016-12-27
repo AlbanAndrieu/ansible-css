@@ -4,31 +4,50 @@
 ##
  # CSS compiling tools.
  #
+
+#TODO https://stackoverflow.com/questions/26595620/how-to-install-ruby-2-1-4-on-ubuntu-14-04
+
+- name: CSS | Add repo for ruby packages
+  apt_repository: repo="ppa:brightbox/ruby-ng" state={{ util_repository_state|default('present') }} update_cache=yes
+  become: yes
+  when: ( ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' ) and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
+  tags: ruby
+
 - name: CSS | Install rubygems package
   action: apt pkg=rubygems state=installed
   when: (ansible_distribution_version in ['12.04', '13.04', '13.10'])
-  tags: css
+  tags: ruby
   become: yes
 
 - name: CSS | Install ruby package (gem is included now in ruby)
   action: apt pkg=ruby{{ ruby_version }} state=installed
   when: (ansible_distribution_version not in ['12.04', '13.04', '13.10'])
-  tags: css
+  tags: ruby
   become: yes
 
 - name: CSS | Install SASS
   action: command gem install sass creates=/usr/local/bin/sass
+  when: ( ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' ) and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
   tags: css
   become: yes
 
 - name: CSS | Install Susy (no more --pre required as it's 1.0 now)
   action: command gem install susy
+  when: ( ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' ) and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
   tags: css
   become: yes
 
 - name: CSS | Install Compass
   action: command gem install compass creates=/usr/local/bin/compass
+  when: ( ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' ) and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
   tags: css
+  become: yes
+
+- name: CSS | Install Compass
+  apt: pkg={{ item }} state=present update_cache=yes
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version not in ['12.04', '13.04', '13.10']
+  with_items:
+   - ruby-compass
   become: yes
 
 - name: CSS | Install Respond-to
@@ -36,7 +55,7 @@
   tags: css
   become: yes
 
-- name: Install cssed
+- name: CSS | Install cssed
   apt: pkg={{ item }} state=present update_cache=yes
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version in ['12.04', '13.04', '13.10'] and css_editor_enabled
   with_items:
