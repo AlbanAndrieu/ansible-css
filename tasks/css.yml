@@ -69,7 +69,7 @@
 
 - name: css | Install cssed
   action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}"
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and css_editor_enabled
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version not in ['12.04', '13.04', '13.10', '14.04'] and css_editor_enabled
   #and ansible_distribution_version in ['12.04', '13.04', '13.10']
   with_items:
    - cssed
