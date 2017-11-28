@@ -63,6 +63,7 @@
 
 - name: css | Install Respond-to
   action: command gem install respond-to
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version not in ['12.04', '13.04', '13.10', '14.10']  
   tags: css
   become: yes
 
