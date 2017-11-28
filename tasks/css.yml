@@ -10,50 +10,50 @@
 - name: CSS | Add repo for ruby packages
   apt_repository: repo="ppa:brightbox/ruby-ng" state={{ util_repository_state|default('present') }} update_cache=yes
   become: yes
-  when: ( ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' ) 
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
   #and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
   tags: ruby
 
 - name: CSS | Install rubygems package
-  action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}"  
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}"
   with_items:
-   - rubygems  
+   - rubygems
   #when: (ansible_distribution_version in ['12.04', '13.04', '13.10'])
   tags: ruby
   become: yes
 
 - name: CSS | Install ruby package (gem is included now in ruby)
-  action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}" 
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}"
   #when: (ansible_distribution_version not in ['12.04', '13.04', '13.10'])
   with_items:
-   - ruby{{ ruby_version }}    
+   - ruby{{ ruby_version }}
   tags: ruby
   become: yes
 
 - name: CSS | Install SASS
   action: command gem install sass creates=/usr/local/bin/sass
-  when: ( ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' ) 
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and (ansible_distribution_version not in ['12.04', '13.04', '14.04', '15.04', ])
   #and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
   tags: css
   become: yes
 
 - name: CSS | Install Susy (no more --pre required as it's 1.0 now)
   action: command gem install susy
-  when: ( ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' ) 
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
   #and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
   tags: css
   become: yes
 
 - name: CSS | Install Compass
   action: command gem install compass creates=/usr/local/bin/compass
-  when: ( ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu' ) 
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
   #and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
   tags: css
   become: yes
 
 - name: CSS | Install Compass
-  action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}" 
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') 
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}"
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
   #and ansible_distribution_version not in ['12.04', '13.04', '13.10']
   with_items:
    - ruby-compass
@@ -65,7 +65,7 @@
   become: yes
 
 - name: CSS | Install cssed
-  action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}" 
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}"
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and css_editor_enabled
   #and ansible_distribution_version in ['12.04', '13.04', '13.10']
   with_items:
