@@ -3,6 +3,4 @@
   become: true
 
   roles:
-    - { role: ./ }
-
-#- include: docker/integration-tests.yml
+    - ansible-css
