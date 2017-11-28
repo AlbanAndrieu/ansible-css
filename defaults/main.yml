@@ -1,4 +1,3 @@
 css_enabled: yes                       # Enable module
 css_editor_enabled: yes                # Enable editor
-#ruby_version: 2.3
-ruby_version:
+
