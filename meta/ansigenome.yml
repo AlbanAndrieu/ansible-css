@@ -1,41 +1,33 @@
 ---
 dependencies: []
 
-galaxy_info:
-  author: Alban Andrieu
-  description: A role for installing vagrant
-  company: Nabla
-  license: Apache
-  min_ansible_version: 2.3.1.0
-  platforms:
-  - name: Ubuntu
-    versions:
-    - all
-    - lucid
-    - maverick
-    - natty
-    - oneiric
-    - precise
-    - quantal
-    - raring
-    - saucy
-    - trusty
-  categories:
-  - development
-
 ansigenome_info:
   galaxy_id: '1547'
+  galaxy_url: 'https://galaxy.ansible.com/alban.andrieu/css/'
   galaxy_user: 'alban.andrieu'
   galaxy_name: 'css'
+  galaxy_docker_name: 'ansible-css'
 
-  travis: True
+  travis: true
 
   authors:
-    - name:  'Alban Andrieu'
+    - name: 'Alban Andrieu'
       url: 'fr.linkedin.com/in/nabla/'
       email: 'alban.andrieu@free.fr'
       twitter: 'AlbanAndrieu'
       github: 'AlbanAndrieu'
+
+  description: A role for installing css
+  company: Nabla
+  license: Apache
+  min_ansible_version: 2.7.8
+  
+  platforms:
+    - name: Ubuntu
+      versions:
+      - all
+  categories:
+    - development
 
   synopsis: |
     Ensures that css is installed (using `apt`)
