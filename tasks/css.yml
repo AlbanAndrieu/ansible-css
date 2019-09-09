@@ -14,7 +14,7 @@
 - name: ruby | Add repo for ruby packages
   apt_repository: repo="ppa:brightbox/ruby-ng" state={{ util_repository_state|default('present') }} update_cache=yes
   become: true
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and (ansible_distribution_version not in ['19.04'])
   #and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
   tags: ruby
 
@@ -31,6 +31,7 @@
   #when: (ansible_distribution_version not in ['12.04', '13.04', '13.10'])
   with_items:
    - ruby{{ ruby_version }}
+   - ruby{{ ruby_version }}-dev
   tags: ruby
   become: true
 
@@ -54,11 +55,18 @@
   tags: css
   become: true
 
-- name: css | Install Compass
+- name: css | Install Compass (1)
   action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}"
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version not in ['12.04', '13.04', '13.10']
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version in ['14.04', '15.10', '16.10', '18.10']
   with_items:
    - ruby-compass
+  become: true
+
+- name: css | Install Compass (2)
+  action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}"
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version not in ['12.04', '13.04', '13.10', '14.10', '15.10', '16.10', '18.10']
+  with_items:
+   - compass-blueprint-plugin     # compass-blueprint-plugin is replacing ruby-compass since 19.04
   become: true
 
 - name: css | Install Respond-to
