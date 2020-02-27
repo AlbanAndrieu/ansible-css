@@ -14,7 +14,7 @@
 - name: ruby | Add repo for ruby packages
   apt_repository: repo="ppa:brightbox/ruby-ng" state={{ util_repository_state|default('present') }} update_cache=yes
   become: true
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and (ansible_distribution_version not in ['19.04'])
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and (ansible_distribution_version is version_compare(18.04, '<=')) 
   #and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
   tags: ruby
 
