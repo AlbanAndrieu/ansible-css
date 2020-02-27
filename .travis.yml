@@ -45,7 +45,7 @@ script:
   
   # First run
   # Run the role/playbook with ansible-playbook.  
-  - ansible-playbook -i hosts --connection=local --sudo -vvvv css.yml
+  - ansible-playbook -i hosts --connection=local -vvvv css.yml
 
 notifications:
   webhooks: https://galaxy.ansible.com/api/v1/notifications/
