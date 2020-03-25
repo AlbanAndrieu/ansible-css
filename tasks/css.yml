@@ -51,7 +51,7 @@
 
 - name: css | Install Compass
   action: command gem install compass creates=/usr/local/bin/compass
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and (ansible_distribution_version in ['12.04', '13.04', '13.10'])
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and (ansible_distribution_version in ['12.04', '13.04', '13.10']) and ansible_distribution_version is version('19.04', '>=')
   tags: css
   become: true
 
@@ -64,7 +64,7 @@
 
 - name: css | Install Compass (2)
   action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}"
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version not in ['12.04', '13.04', '13.10', '14.10', '15.10', '16.10', '18.10']
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version is version('14.04', '>=')
   with_items:
    - compass-blueprint-plugin     # compass-blueprint-plugin is replacing ruby-compass since 19.04
   become: true
