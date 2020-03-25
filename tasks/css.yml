@@ -5,8 +5,6 @@
  # CSS compiling tools.
  #
 
-#TODO https://stackoverflow.com/questions/26595620/how-to-install-ruby-2-1-4-on-ubuntu-14-04
-
 - name: Include OS specific vars
   tags: ruby
   include_vars: "{{ ansible_os_family }}.yml"
@@ -64,7 +62,8 @@
 
 - name: css | Install Compass (2)
   action: "{{ ansible_pkg_mgr }} name={{ item }} state={{ util_pkg_state|default('present') }}"
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and ansible_distribution_version is version('14.04', '>=')
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and (ansible_distribution_version is version_compare(19.04, '>=')) 
+  #and ansible_distribution_version not in ['12.04', '13.04', '13.10', '14.10', '15.10', '16.10', '18.10']
   with_items:
    - compass-blueprint-plugin     # compass-blueprint-plugin is replacing ruby-compass since 19.04
   become: true
