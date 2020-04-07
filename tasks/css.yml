@@ -33,21 +33,21 @@
   tags: ruby
   become: true
 
-- name: css | Install SASS
+#gem update --system
+
+- name: css | Install SASS (1)
   action: command gem install sass creates=/usr/local/bin/sass
-  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and (ansible_distribution_version not in ['12.04', '13.04', '14.04', '15.04', ])
-  #and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
+  when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and (ansible_distribution_version not in ['12.04', '13.04', '14.04', '15.04', ]) # and ansible_distribution_version is version('19.04', '>=')
   tags: css
   become: true
-
+  
 - name: css | Install Susy (no more --pre required as it's 1.0 now)
   action: command gem install susy
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu')
-  #and (ansible_distribution_version in ['12.04', '13.04', '13.10', '14.04'])
   tags: css
   become: true
 
-- name: css | Install Compass
+- name: css | Install Compass (1)
   action: command gem install compass creates=/usr/local/bin/compass
   when: (ansible_distribution == 'Debian' or ansible_distribution == 'Ubuntu') and (ansible_distribution_version in ['12.04', '13.04', '13.10']) and ansible_distribution_version is version('19.04', '>=')
   tags: css
